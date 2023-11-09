@@ -1,0 +1,235 @@
+openapi: 3.0.1
+info: 
+  title: Робот-пылесос
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Dev server
+paths:
+  /users:
+    get:
+      summary: Получение списка пользователей
+      tags:
+        - Users
+      operationId: getAllUsers
+      responses:
+        "200":
+          description: Успешный ответ со списком пользователей
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "default":
+          description: Все остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user/{id_user}:
+    get:
+      summary: Получить пользователя
+      tags:
+        - Users
+      operationId: getUser
+      parameters:
+        - name: id_user
+          in: path
+          required: true
+          description: id User
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Успешный ответ получения пользователя
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "default":
+          description: Все остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
+    post:
+      summary: Добавить пользователя
+      tags:
+        - Users
+      operationId: addUser
+      parameters:
+        - name: id_user
+          in: path
+          required: true
+          description: id User
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Успешный ответ добавления пользователя
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "default":
+          description: Все остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
+  /robots:
+    get:
+      summary: Получение списка роботов
+      tags:
+        - Robots
+      operationId: getAllRobots
+      responses:
+        "200":
+          description: Успешный ответ со списком роботов
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Robots"
+        "default":
+          description: Все остальное
+          content:
+            adplication/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+                
+  /robot/{id_robot}:
+      get:
+        summary: Получить робота
+        tags:
+          - Robots
+        operationId: getRobot
+        parameters:
+          - name: id_robot
+            in: path
+            required: true
+            description: id Robot
+            schema:
+              type: integer
+        responses:
+          "200":
+            description: Успешный ответ получения робота
+            content:
+              adplication/json:
+                schema:
+                  $ref: "#/components/schemas/Robot"
+          "default":
+            description: Все остальное
+            content:
+              adplication/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+                  
+      post:
+        summary: Добавить робота
+        tags:
+          - Robots
+        operationId: addRobot
+        parameters:
+          - name: id_robot
+            in: path
+            required: true
+            description: id Robot
+            schema:
+              type: integer
+        responses:
+          "200":
+            description: Успешный ответ добавления робота
+            content:
+              adplication/json:
+                schema:
+                  $ref: "#/components/schemas/Robot"
+          "default":
+            description: Все остальное
+            content:
+              adplication/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Robot:
+      type: object
+      required:
+        - id
+        - model
+        - version
+        - status
+        - resoures
+        - fabricNumber
+        - ipAdress
+        - id_groupUser
+      properties:
+        id:
+          type: integer
+          example: 1
+        model:
+          type: string
+          example: abcd123
+        version:
+          type: string
+          example: abc123
+        status:
+          type: string
+          example: worked
+        resource:
+          type: integer
+          example: 75
+        fabricName:
+          type: string
+          example: fabric
+        fabricNumber:
+          type: string
+          example: 123er567
+        ipAdress:
+          type: string
+          example: 192.168.2.2
+        id_groupUser:
+          type: integer
+          example: 2
+        
+    Robots:
+      type: array
+      items:
+        $ref: "#/components/schemas/Robot"
+        
+    User:
+      type: object
+      required:
+        - id
+        - login
+        - hashPassword
+        - email
+      properties:
+        id:
+          type: integer
+          example: 1
+        login:
+          type: string
+          example: abcde
+        hashPassword:
+          type: string
+          example: 123456
+        email:
+          type: string
+          example: abc@mail.com
+    Users:
+      type: array
+      items:
+        $ref: "#/components/schemas/User"
+    Error:
+      type: object
+      required:
+        - codeError
+        - message
+      properties:
+        codeError:
+          type: integer
+          example: 1
+        message:
+          type: string
+          example: error
